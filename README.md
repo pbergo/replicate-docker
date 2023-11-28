@@ -65,7 +65,7 @@ Following the premises to install Qlik Replicate using Docker:
 
 The diagram below shows the architecture used to implement Replicate.
 
-> ![Diagram Description automatically generated](media/image2.png)
+> ![Replicate Docker diagram](media/image2.png)
 
 <a id="steps"></a>
 ## Steps to install Qlik Replicate on Docker
