@@ -13,15 +13,25 @@ This project is made available under a modified MIT license. See the [LICENSE](L
 ## Table of Contents
 
 [Introduction](#introduction)
+
 [Premises](#premises)
+
 [Steps to install Qlik Replicate on Docker](#steps)
+
 [Step 1 - Install Docker](#install-docker)
+
 [Step 2 - Download files](#download-files)
+
 [Step 3 - Adjusting the scripts](#adjust-scripts)
+
 [Step 4 - Build Docker Image](#build-image)
+
 [Step 5 - Run Qlik Replicate on Docker](#run-replicate)
+
 [Step 6 - Managing Replicate Docker container with examples](#docker-reference)
+
 [Extra - Upgrading Qlik Replicate on Docker](#upgrading)
+
 
 <a id="introduction"></a>
 ## Introduction
