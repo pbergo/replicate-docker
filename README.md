@@ -565,6 +565,10 @@ Following command can be used to pull the latest image available from my own rep
 sudo docker image pull pedrobergo/qlikreplicate:latest
 ```
 
+The latest image contains:
+- Qlik Replicate version November 2024 Initial Release
+- ODBC Drivers installed: SQL Server, Oracle, Databricks and Snowflake
+
 #### Executing docker image
 To execute Qlik Replicate image, use following command line:
 
