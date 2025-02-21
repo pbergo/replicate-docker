@@ -555,9 +555,11 @@ sudo sh ./run_docker.sh 3552 qre-docker QlikReplicate2023
 ## Acelerating Qlik Replicate adoption
 
 #### Install docker
-To use the public image you must install Docker in your machine or desktop [Step 1 - Install Docker](#install-docker)
+To use the public image you must install Docker in your machine or desktop.
 
-Access following link to install it on Windows https://docs.docker.com/engine/install/
+Access following links to install it on
+- Linux [Install Docker](#install-docker)
+- Windows https://docs.docker.com/desktop/
 
 #### Getting image from Docker
 
