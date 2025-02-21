@@ -34,7 +34,7 @@ This project is made available under a modified MIT license. See the [LICENSE](L
 
 [Extra - Upgrading Qlik Replicate on Docker](#upgrading)
 
-[Images - Use this section to get an image from Docker hub and use it](#images)
+[Docker Image - Get an image from Docker hub and use it](#dockerimage)
 
 <a id="introduction"></a>
 ## Introduction
@@ -550,6 +550,7 @@ sudo docker container prune
 sudo sh ./run_docker.sh 3552 qre-docker QlikReplicate2023
 ```
 
+<a id="dockerimage"></a>
 # Docker Image
 ## Acelerating Qlik Replicate adoption
 
