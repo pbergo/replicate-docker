@@ -34,6 +34,7 @@ This project is made available under a modified MIT license. See the [LICENSE](L
 
 [Extra - Upgrading Qlik Replicate on Docker](#upgrading)
 
+[Images - Use this section to get an image from Docker hub and use it](#images)
 
 <a id="introduction"></a>
 ## Introduction
@@ -540,7 +541,7 @@ If you got any error during execution of step 6 or cannot access the new version
 ```shell
 # stopping and removing
 sudo docker container stop <containerID>
-suto docker container prune
+sudo docker container prune
 ```
 
 2. Run earlier version
@@ -548,3 +549,40 @@ suto docker container prune
 #Run docker
 sudo sh ./run_docker.sh 3552 qre-docker QlikReplicate2023
 ```
+
+# Docker Image
+## Acelerating Qlik Replicate adoption
+
+#### Install docker
+To use the public image you must install Docker in your machine or desktop [Step 1 - Install Docker](#install-docker)
+
+Access following link to install it on Windows https://docs.docker.com/engine/install/
+
+#### Getting image from Docker
+
+Following command can be used to pull the latest image available from my own repository
+```shell
+sudo docker image pull pedrobergo/qlikreplicate:latest
+```
+
+#### Executing docker image
+To execute Qlik Replicate image, use following command line:
+
+```shell
+sudo docker run -d -e ReplicateRestPort=<Port> --name "<ContainerName>" -e ReplicateAdminPassword=<YourPassword> -p <Port>:<Port> --expose <Port> pedrobergo/qlikreplicate:latest
+```
+
+- Port: Use 3552 as default
+- ContainerName: Name your container, like qlikreplicate OR qre2024
+- YourPassword: Use 16 characters with only letter and number, lower and -uppercase, like QlikReplicateNov2024. It will be the login password.
+
+#### Accessing Qlik Replicate UI
+
+Open your browser and use the the ipaddress or machine name followed by Port and "attunityreplicate" service, like https://mymachine:3552/attunityreplicate
+
+Fill up the username admin and your password:
+- Username: admin
+- Password: \<YourPassword\>
+
+
+
