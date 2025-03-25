@@ -552,7 +552,7 @@ sudo sh ./run_docker.sh 3552 qre-docker QlikReplicate2023
 
 <a id="dockerimage"></a>
 # Docker Image
-## Acelerating Qlik Replicate adoption
+## Accelerating Qlik Replicate adoption
 
 #### Install docker
 To use the public image you must install Docker in your machine or desktop.
