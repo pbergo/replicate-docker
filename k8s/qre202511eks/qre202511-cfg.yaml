@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qre202511-cfg
+data:
+  # Variáveis de ambiente
+  REPLICATE_REST_PORT: "3552"
+  REPLICATE_DATA_FOLDER: "/replicate/data"
+  LD_LIBRARY_PATH: ":/opt/microsoft/msodbcsql18/lib64"
+  # Conteúdo de arquivos (Exemplo de licença)
+  license.json: |
+    {
+      "metadata": "sua-licenca-aqui"
+    }

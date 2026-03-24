@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: qre202511-sts
+  labels:
+    app: qre202511
+spec:
+  # O serviceName deve ser igual ao nome do seu headless service (svi)
+  serviceName: "qre202511-svi"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qre202511
+  template:
+    metadata:
+      labels:
+        app: qre202511
+    spec:
+      containers:
+        - name: qre-container
+          # ATENÇÃO: Substitua ACCOUNT_ID e REGION pelos seus dados da AWS
+          image: ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/qre202511:latest
+          imagePullPolicy: Always
+          
+          # Comando de inicialização do Qlik Replicate
+          command: ["/bin/sh"]
+          args: 
+            - "-c"
+            - "/opt/attunity/replicate/bin/start_replicate.sh ${ReplicateDataFolder} ${ReplicateAdminPassword} ${ReplicateRestPort} /opt/attunity/replicate/bin/license.json ; tail -f /dev/null"
+          
+          ports:
+            - name: replicate-web
+              containerPort: 3552
+          
+          env:
+            # Senha extraída do Secret
+            - name: ReplicateAdminPassword
+              valueFrom:
+                secretKeyRef:
+                  name: qre202511-pwd
+                  key: replicate-admin-password
+            
+            # Configurações extraídas do ConfigMap
+            - name: ReplicateRestPort
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: REPLICATE_REST_PORT
+            - name: ReplicateDataFolder
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: REPLICATE_DATA_FOLDER
+            - name: LD_LIBRARY_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: LD_LIBRARY_PATH
+          
+          volumeMounts:
+            - name: replicate-data
+              mountPath: /replicate/data
+            - name: config-volume
+              mountPath: /opt/attunity/replicate/bin/license.json
+              subPath: license.json
+
+      volumes:
+        # Montagem do ConfigMap como arquivo para a licença
+        - name: config-volume
+          configMap:
+            name: qre202511-cfg
+            items:
+              - key: license.json
+                path: license.json
+
+  # No EKS, é melhor definir o volume aqui para que a AWS crie o EBS automaticamente
+  volumeClaimTemplates:
+    - metadata:
+        name: replicate-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: gp2
+        resources:
+          requests:
+            storage: 50Gi

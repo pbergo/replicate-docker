@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qre202511-svi
+  labels:
+    app: qre202511
+spec:
+  clusterIP: None # Essencial para ser Headless
+  selector:
+    app: qre202511
+  ports:
+    - name: replicate-web
+      port: 3552
+      targetPort: replicate-web
