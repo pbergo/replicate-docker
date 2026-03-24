@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: qre202511-sts
+  labels:
+    app: qre202511
+spec:
+  serviceName: "qre-internal"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qre202511
+  template:
+    metadata:
+      labels:
+        app: qre202511
+    spec:
+      volumes:
+        - name: replicate-data
+          persistentVolumeClaim:
+            claimName: qre202511-pvc
+        - name: config-volume
+          configMap:
+            name: qre202511-cfg
+      
+      containers:
+        - name: qre202511
+          image: pedrobergo/qre202511:latest
+          imagePullPolicy: IfNotPresent
+          
+          # Inicialização usando as variáveis injetadas
+          command: ["/bin/sh"]
+          args: 
+            - "-c"
+            - "/opt/attunity/replicate/bin/start_replicate.sh ${ReplicateDataFolder} ${ReplicateAdminPassword} ${ReplicateRestPort} /opt/attunity/replicate/bin/license.json ; tail -f /dev/null"
+          
+          ports:
+            - name: replicate-web
+              containerPort: 3552 # O K8s exige o número aqui, mas o seu script usa a variável ${ReplicateRestPort}
+          
+          env:
+            # Senha vinda do Secret
+            - name: ReplicateAdminPassword
+              valueFrom:
+                secretKeyRef:
+                  name: qre202511-pwd
+                  key: replicate-admin-password
+            
+            # Configurações vindas do ConfigMap
+            - name: ReplicateRestPort
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: REPLICATE_REST_PORT
+            - name: ReplicateDataFolder
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: REPLICATE_DATA_FOLDER
+            - name: LD_LIBRARY_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: qre202511-cfg
+                  key: LD_LIBRARY_PATH
+          
+          volumeMounts:
+            - name: replicate-data
+              mountPath: /replicate/data
+            - name: config-volume
+              mountPath: /opt/attunity/replicate/bin/license.json
+              subPath: license.json

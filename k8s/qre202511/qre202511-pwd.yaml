@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: qre202511-pwd
+type: Opaque
+stringData: # O 'stringData' permite que você escreva o texto puro e o K8s converte para Base64 automaticamente
+  replicate-admin-password: "QlikReplicate2026"
